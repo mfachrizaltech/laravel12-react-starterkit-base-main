@@ -1,4 +1,3 @@
-# laravel12-react-starterkit-base-main
 🚀 Features
 
 Our system is designed to streamline development with automatic permissions, multi-language support, and React-integrated validation.
@@ -56,6 +55,28 @@ Create custom reports dynamically from SQL queries.
 Supports viewing and exporting reports (PDF/Excel) directly from the web UI.
 
 Ideal for admin dashboards and analytical modules.
+
+
+🧾 9. Logstash Logging Support
+
+The system supports Logstash-compatible JSON logging, enabling seamless integration with 🧠 ELK (Elasticsearch, Logstash, Kibana) for centralized log management, analysis, and monitoring.
+
+'logstash' => [
+    'driver' => 'single',
+    'path' => storage_path('logs/logstash.log'),
+    'tap' => [App\Logging\JsonFormatterTap::class],
+    'level' => 'info',
+],
+
+
+✨ Key Benefits:
+
+📊 Structured JSON logs ready for ELK ingestion
+
+🧠 Improved log analytics and search capabilities
+
+🧩 Easy integration with existing monitoring pipelines
+
 
 🛠️ Tech Stack
 
