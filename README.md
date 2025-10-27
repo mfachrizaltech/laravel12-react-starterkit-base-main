@@ -57,9 +57,23 @@ Supports viewing and exporting reports (PDF/Excel) directly from the web UI.
 Ideal for admin dashboards and analytical modules.
 
 
-🧾 9. Logstash Logging Support
+🧾 9. Logging
+1. 🕵️ Audit Log
 
-The system supports Logstash-compatible JSON logging, enabling seamless integration with 🧠 ELK (Elasticsearch, Logstash, Kibana) for centralized log management, analysis, and monitoring.
+The system includes a built-in Audit Log feature that automatically records critical user actions — such as create, update, and delete operations — along with metadata like user ID, timestamps, and changed values.
+This ensures full traceability, accountability, and helps with security audits or regulatory compliance.
+
+✨ Key Benefits:
+
+🧾 Tracks all critical user activities
+
+🔒 Enhances security and accountability
+
+🕰️ Keeps historical change records for compliance and analysis
+
+2. 🧠 Logstash Logging Support
+
+The system supports Logstash-compatible JSON logging, enabling seamless integration with ELK (Elasticsearch, Logstash, Kibana) for centralized log management, analysis, and monitoring.
 
 'logstash' => [
     'driver' => 'single',
@@ -77,6 +91,9 @@ The system supports Logstash-compatible JSON logging, enabling seamless integrat
 
 🧩 Easy integration with existing monitoring pipelines
 
+
+
+******************************************************************
 
 🛠️ Tech Stack
 
