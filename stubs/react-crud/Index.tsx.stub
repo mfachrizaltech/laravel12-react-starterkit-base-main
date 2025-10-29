@@ -1,0 +1,202 @@
+import 'primeicons/primeicons.css';
+import AppLayout from '@/layouts/app-layout';
+import { useLang } from '@/lib/lang';
+import { type BreadcrumbItem } from '@/types';
+import { Head, router } from '@inertiajs/react';
+import { useRef, useState, useEffect } from 'react';
+import { DataTable, DataTablePageEvent } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Toast } from 'primereact/toast';
+import { FilterMatchMode } from 'primereact/api';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import AuthButton from '@/components/customs/auth-button';
+import { SelectButton } from 'primereact/selectbutton';
+
+type Props = {
+  {{ modelPlural }}: {
+    data: any[];
+    current_page: number;
+    per_page: number;
+    total: number;
+  };
+  flash?: {
+    success?: string;
+    error?: string;
+  };
+};
+
+const {{ Model }}IndexPage: React.FC<Props> = ({ {{ modelPlural }}, flash }) => {
+  const toast = useRef<Toast>(null);
+  const { __ } = useLang();
+  const [data, setData] = useState({{ modelPlural }}.data);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => setData({{ modelPlural }}.data), [{{ modelPlural }}]);
+  useEffect(() => {
+    if (flash?.success) toast.current?.show({ severity: 'success', summary: 'Success', detail: flash.success });
+    if (flash?.error) toast.current?.show({ severity: 'error', summary: 'Error', detail: flash.error });
+  }, [flash]);
+
+  const breadcrumbs: BreadcrumbItem[] = [
+    { title: __('{{ model }}.{{ modelPlural }}'), href: route('{{ modelPlural }}.index') },
+  ];
+
+  const onPage = (e: DataTablePageEvent) => {
+    const page = (e.page ?? 0) + 1;
+    router.get(route('{{ modelPlural }}.index'), { page }, { preserveScroll: true, preserveState: true });
+  };
+
+  const [filters, setFilters] = useState({
+  {{ filter_state }}
+  });
+
+  const onFilterChange = (e: any) => {
+    setFilters(e.filters); 
+    console.log(e.filter);
+    // Send filters to Laravel
+    router.get(route('products.index'), {
+      filters: e.filters,
+    }, { 
+      preserveState: true,
+    });
+  };  
+
+  const [loadingButton, setLoadingButton] = useState<{
+    id: number | null;
+    action: string | null;
+  }>({ id: null, action: null });
+
+  const [tableKey, setTableKey] = useState(0); 
+ 
+  const confirmDelete = (item: any, onSuccess?: () => void) => { 
+    confirmDialog({
+      message: (
+        <div>
+          <p>{__('label.delete_message')}</p> 
+          // Add additional info you want show in here
+        </div>
+      ),
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: __('label.yes'),
+      rejectLabel: __('label.no'),
+      acceptClassName: 'p-button-danger',
+      accept: () => {
+        router.delete(route('prod{{ modelPlural }}uct.destroy', item.id), {
+          preserveScroll: true,
+          onSuccess: () => {
+            setData((prev) => prev.filter((i) => i.id !== item.id)),
+            onSuccess?.(); 
+          },
+        });
+      },
+      reject: () => {
+        onSuccess?.(); // optional: reset loading if cancel 
+      }
+    });
+  };
+
+  return (
+    <AppLayout breadcrumbs={breadcrumbs}>
+      <Head title={__('{{ model }}.{{ modelPlural }}')} />
+      <Toast ref={toast} />
+
+      <div className="p-4">
+        <div className="flex justify-between mb-4">
+          <h2 className="text-2xl font-bold">{__('{{ model }}.{{ modelPlural }}')}</h2>
+          <AuthButton
+            permission='{{ modelPlural }}.create'
+            label={__('button.add')}
+            icon="pi pi-plus" 
+            onClick={() => { 
+              setLoadingButton({ id: null, action: 'add' });
+              router.visit(route('{{ modelPlural }}.create'), {
+                onFinish: () => setLoadingButton({ id: null, action: null }),
+              });
+            }}
+            loading={loadingButton.action === 'add'}
+            disabled={loadingButton.action === 'add'}
+          />
+
+        </div>
+ 
+        <DataTable
+          key={tableKey}
+          value={data}
+          paginator
+          rows={{{ modelPlural }}.per_page}
+          totalRecords={{{ modelPlural }}.total}
+          first={({{ modelPlural }}.current_page - 1) * {{ modelPlural }}.per_page}
+          onPage={onPage}
+          dataKey="id"
+          filters={filters} 
+          onFilter={onFilterChange}
+          filterDisplay="row"
+          globalFilterFields={{{ global_filters }}}       
+          emptyMessage={__('label.no_data_found')}
+        >
+          {{ table_columns }}
+ 
+        <Column
+          header={__('label.actions')}
+          body={(rowData: any) => (
+            <div className="flex gap-2 justify-center">
+              <AuthButton
+                permission='{{ modelPlural }}.show'
+                type="button"
+                icon="pi pi-eye"
+                className="p-button-info p-button-sm"
+                onClick={() => {
+                setLoadingButton({ id: rowData.id, action: 'show' });
+                setTableKey((prev) => prev + 1);
+                router.visit(route('{{ modelPlural }}.show', rowData.id), {
+                    onFinish: () => setLoadingButton({ id: null, action: null }),
+                });
+                }}
+                loading={loadingButton.id === rowData.id && loadingButton.action === 'show'}
+                disabled={loadingButton.id === rowData.id && loadingButton.action === 'show'}
+              />
+              <AuthButton
+                permission='{{ modelPlural }}.edit'
+                icon="pi pi-pencil"
+                className="p-button-sm"
+                onClick={() => {
+                  setLoadingButton({ id: rowData.id, action: 'edit' });
+                  setTableKey((prev) => prev + 1);
+                  router.visit(route('{{ modelPlural }}.edit', rowData.id), {
+                    onFinish: () => setLoadingButton({ id: null, action: null }),
+                  });
+                }}
+                loading={loadingButton.id === rowData.id && loadingButton.action === 'edit'}
+                disabled={loadingButton.id === rowData.id && loadingButton.action === 'edit'}
+              />
+              <AuthButton
+                permission='{{ modelPlural }}.destroy'
+                icon="pi pi-trash"
+                className="p-button-danger p-button-sm"
+                onClick={() => {
+                  setLoadingButton({ id: rowData.id, action: 'delete' });
+                  setTableKey((prev) => prev + 1);
+                  confirmDelete(rowData, () => {
+                    setLoadingButton({ id: null, action: null }); // manually reset in callback
+                    setTableKey((prev) => prev + 1);
+                  });
+                }}
+              loading={loadingButton.id === rowData.id && loadingButton.action === 'delete'}
+              disabled={loadingButton.id === rowData.id && loadingButton.action === 'delete'}
+              />
+            </div>
+          )}
+          style={{ width: '10rem', textAlign: 'center' }}
+          headerStyle={{ textAlign: 'center' }}
+        />
+         
+        </DataTable>
+      </div>
+
+      <ConfirmDialog />
+    </AppLayout>
+  );
+};
+
+export default {{ Model }}IndexPage;

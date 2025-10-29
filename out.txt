@@ -1,0 +1,92 @@
+
+  GET|HEAD        / ................................................................................................................................................. home
+  GET|HEAD        confirm-password ............................................................................ password.confirm › Auth\ConfirmablePasswordController@show
+  POST            confirm-password .............................................................................................. Auth\ConfirmablePasswordController@store
+  GET|HEAD        customers/search .......................................................................................... customers.search › CustomerController@search
+  GET|HEAD        dashboard .................................................................................................................................... dashboard
+  POST            email/verification-notification ................................................. verification.send › Auth\EmailVerificationNotificationController@store
+  GET|HEAD        forgot-password ............................................................................. password.request › Auth\PasswordResetLinkController@create
+  POST            forgot-password ................................................................................ password.email › Auth\PasswordResetLinkController@store
+  GET|HEAD        login ............................................................................................... login › Auth\AuthenticatedSessionController@create
+  POST            login ........................................................................................................ Auth\AuthenticatedSessionController@store
+  POST            logout ............................................................................................ logout › Auth\AuthenticatedSessionController@destroy
+  POST            order-log-works ................................................................................... order-log-works.store › OrderLogWorkController@store
+  GET|HEAD        orders ............................................................................................................ orders.index › OrderController@index
+  POST            orders ............................................................................................................ orders.store › OrderController@store
+  GET|HEAD        orders/create ................................................................................................... orders.create › OrderController@create
+  GET|HEAD        orders/{id} ......................................................................................................... orders.show › OrderController@show
+  POST            orders/{id} ..................................................................................................... orders.update › OrderController@update
+  DELETE          orders/{id} ................................................................................................... orders.destroy › OrderController@destroy
+  PUT             orders/{id}/discount-status .............................................................. orders.discount-status › OrderController@updateDiscountStatus
+  GET|HEAD        orders/{id}/edit .................................................................................................... orders.edit › OrderController@edit
+  PUT             orders/{id}/finish-work ................................................................................ orders.finish-work › OrderController@finishWork
+  GET|HEAD        orders/{id}/invoice ........................................................................................... orders.invoice › OrderController@invoice
+  PUT             orders/{id}/start-work ................................................................................... orders.start-work › OrderController@startWork
+  GET|HEAD        permissions ............................................................................................. permissions.index › PermissionController@index
+  POST            permissions ............................................................................................. permissions.store › PermissionController@store
+  GET|HEAD        permissions/create .................................................................................... permissions.create › PermissionController@create
+  GET|HEAD        permissions/{permission} .................................................................................. permissions.show › PermissionController@show
+  PUT|PATCH       permissions/{permission} .............................................................................. permissions.update › PermissionController@update
+  DELETE          permissions/{permission} ............................................................................ permissions.destroy › PermissionController@destroy
+  GET|HEAD        permissions/{permission}/edit ............................................................................. permissions.edit › PermissionController@edit
+  GET|HEAD        petty-cash ................................................................................................ petty-cash.index › PettyCashController@index
+  POST            petty-cash ................................................................................................ petty-cash.store › PettyCashController@store
+  GET|HEAD        petty-cash/create ....................................................................................... petty-cash.create › PettyCashController@create
+  PUT             petty-cash/{id} ......................................................................................... petty-cash.update › PettyCashController@update
+  DELETE          petty-cash/{id} ....................................................................................... petty-cash.destroy › PettyCashController@destroy
+  GET|HEAD        petty-cash/{id}/edit ........................................................................................ petty-cash.edit › PettyCashController@edit
+  GET|HEAD        register ............................................................................................... register › Auth\RegisteredUserController@create
+  POST            register ........................................................................................................... Auth\RegisteredUserController@store
+  POST            reset-password ....................................................................................... password.store › Auth\NewPasswordController@store
+  GET|HEAD        reset-password/{token} .............................................................................. password.reset › Auth\NewPasswordController@create
+  GET|HEAD        roles ............................................................................................................... roles.index › RoleController@index
+  POST            roles ............................................................................................................... roles.store › RoleController@store
+  GET|HEAD        roles/create ...................................................................................................... roles.create › RoleController@create
+  GET|HEAD        roles/{role} .......................................................................................................... roles.show › RoleController@show
+  PUT|PATCH       roles/{role} ...................................................................................................... roles.update › RoleController@update
+  DELETE          roles/{role} .................................................................................................... roles.destroy › RoleController@destroy
+  GET|HEAD        roles/{role}/edit ..................................................................................................... roles.edit › RoleController@edit
+  ANY             settings ....................................................................................................... Illuminate\Routing › RedirectController
+  GET|HEAD        settings/appearance ......................................................................................................................... appearance
+  GET|HEAD        settings/password ..................................................................................... password.edit › Settings\PasswordController@edit
+  PUT             settings/password ................................................................................. password.update › Settings\PasswordController@update
+  GET|HEAD        settings/profile ........................................................................................ profile.edit › Settings\ProfileController@edit
+  PATCH           settings/profile .................................................................................... profile.update › Settings\ProfileController@update
+  DELETE          settings/profile .................................................................................. profile.destroy › Settings\ProfileController@destroy
+  GET|HEAD        storage/{path} ........................................................................................................................... storage.local
+  DELETE          supplie-orders/{id} .......................................................................... supplier-orders.destroy › SupplierOrderController@destroy
+  GET|HEAD        supplier-orders .................................................................................. supplier-orders.index › SupplierOrderController@index
+  POST            supplier-orders .................................................................................. supplier-orders.store › SupplierOrderController@store
+  GET|HEAD        supplier-orders/create ......................................................................... supplier-orders.create › SupplierOrderController@create
+  GET|HEAD        supplier-orders/{id} ............................................................................... supplier-orders.show › SupplierOrderController@show
+  PUT             supplier-orders/{id} ........................................................................... supplier-orders.update › SupplierOrderController@update
+  GET|HEAD        supplier-orders/{id}/edit .......................................................................... supplier-orders.edit › SupplierOrderController@edit
+  PUT             supplier-orders/{id}/move-to-warehouse ..................................... supplier-orders.move-to-warehouse › SupplierOrderController@moveToWarehouse
+  GET|HEAD        up ..................................................................................................................................................... 
+  GET|HEAD        usage-items .............................................................................................. usage-items.index › UsageItemController@index
+  POST            usage-items .............................................................................................. usage-items.store › UsageItemController@store
+  GET|HEAD        usage-items/create ..................................................................................... usage-items.create › UsageItemController@create
+  PUT             usage-items/{id} ....................................................................................... usage-items.update › UsageItemController@update
+  DELETE          usage-items/{id} ..................................................................................... usage-items.destroy › UsageItemController@destroy
+  GET|HEAD        usage-items/{id}/edit ...................................................................................... usage-items.edit › UsageItemController@edit
+  GET|HEAD        users ............................................................................................................... users.index › UserController@index
+  POST            users ............................................................................................................... users.store › UserController@store
+  GET|HEAD        users/create ...................................................................................................... users.create › UserController@create
+  PUT             users/{id} ........................................................................................................ users.update › UserController@update
+  DELETE          users/{id} ...................................................................................................... users.destroy › UserController@destroy
+  GET|HEAD        users/{id}/edit ....................................................................................................... users.edit › UserController@edit
+  GET|HEAD        users/{user} .......................................................................................................... users.show › UserController@show
+  PUT|PATCH       users/{user} ...................................................................................................... users.update › UserController@update
+  DELETE          users/{user} .................................................................................................... users.destroy › UserController@destroy
+  GET|HEAD        users/{user}/edit ..................................................................................................... users.edit › UserController@edit
+  GET|HEAD        verify-email .............................................................................. verification.notice › Auth\EmailVerificationPromptController
+  GET|HEAD        verify-email/{id}/{hash} .............................................................................. verification.verify › Auth\VerifyEmailController
+  GET|HEAD        warehouse-items .................................................................................. warehouse-items.index › WarehouseItemController@index
+  POST            warehouse-items .................................................................................. warehouse-items.store › WarehouseItemController@store
+  GET|HEAD        warehouse-items/create ......................................................................... warehouse-items.create › WarehouseItemController@create
+  PUT             warehouse-items/{id} ........................................................................... warehouse-items.update › WarehouseItemController@update
+  DELETE          warehouse-items/{id} ......................................................................... warehouse-items.destroy › WarehouseItemController@destroy
+  GET|HEAD        warehouse-items/{id}/edit .......................................................................... warehouse-items.edit › WarehouseItemController@edit
+
+                                                                                                                                                       Showing [88] routes
+

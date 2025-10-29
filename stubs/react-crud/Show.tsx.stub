@@ -1,0 +1,53 @@
+import 'primeicons/primeicons.css';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { useRef, useState } from 'react';
+import { Head, useForm, router } from '@inertiajs/react';
+import { InputText } from 'primereact/inputtext';
+import { InputNumber } from 'primereact/inputnumber';
+import { SelectButton } from 'primereact/selectbutton';
+import AuthButton from '@/components/customs/auth-button';
+import { Toast } from 'primereact/toast';
+import { useLang } from '@/lib/lang';
+
+type Props = { {{ model }}: any; };
+
+const Show{{ Model }}Page: React.FC<Props> = ({ {{ model }} }) => {
+  const toast = useRef<Toast>(null);
+  const { __ } = useLang();
+  const [isNavigatingBack, setIsNavigatingBack] = useState(false);
+  const { data } = useForm<any>({ ...{{ model }} });
+
+  const breadcrumbs: BreadcrumbItem[] = [
+    { title: __('{{ model }}.show_{{ model }}'), href: route('{{ modelPlural }}.index') },
+  ];
+
+  return (
+    <AppLayout breadcrumbs={breadcrumbs}>
+      <Head title={__('{{ model }}.show_{{ model }}')} />
+      <Toast ref={toast} />
+
+      <div className="form-group">
+        <h2 className="text-xl font-bold mb-4">{__('{{ model }}.show_{{ model }}')}</h2>
+
+        {{ form_fields }}
+
+        <div className="flex justify-end gap-2 mt-6">
+          <AuthButton
+            permission='{{ modelPlural }}.index'
+            type="button"
+            label={__('button.back')}
+            className="p-button-secondary"
+            onClick={() => {
+              setIsNavigatingBack(true);
+              router.visit(route('{{ modelPlural }}.index'), { onFinish: () => setIsNavigatingBack(false) });
+            }}
+            loading={isNavigatingBack}
+          />
+        </div>
+      </div>
+    </AppLayout>
+  );
+};
+
+export default Show{{ Model }}Page;
