@@ -1,47 +1,28 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Models\Role;
-use App\Models\Menu;
-
-class SuperuserMenuRoleSeeder extends Seeder
+return new class extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      */
-    public function run(): void
+    public function up(): void
     {
-        // Find the "superuser" role
-        $role = Role::where('name', 'superuser')->first();
-
-        if (!$role) {
-            $this->command->warn('Role "superuser" not found. Skipping.');
-            return;
-        }
-
-        // Get all menus
-        $menus = Menu::all();
-
-        if ($menus->isEmpty()) {
-            $this->command->warn('No menus found. Skipping.');
-            return;
-        }
-
-        // Prepare menu_role pivot data
-        $data = $menus->map(fn($menu) => [
-            'role_id' => $role->id,
-            'menu_id' => $menu->id,
-        ])->toArray();
-
-        // Clear existing entries for that role (optional)
-        DB::table('menu_role')->where('role_id', $role->id)->delete();
-
-        // Insert new ones
-        DB::table('menu_role')->insert($data);
-
-        $this->command->info('Assigned all menus to the "superuser" role successfully.');
+        Schema::create('menu_role', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade');
+        });
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('menu_role');
+    }
+};
