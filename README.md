@@ -27,7 +27,7 @@ Then open .env and adjust these values:
             php artisan key:generate
 
 
- 🔴5. EDIT THE YAJRA 
+ 🔴 5. EDIT THE YAJRA 
 
 Goto laravel12-react-starterkit-base-main\vendor\yajra\laravel-auditable\src
 Open AuditableServiceProvider
